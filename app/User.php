@@ -149,10 +149,6 @@ class User extends Authenticatable
     {
         // すでにお気に入りにしているかの確認
         $exist = $this->is_favorite($micropostId);
-        // 対象が自分自身かどうかの確認
-        $Micropost = Micropost::find($micropostId);
-        $its_me = $this->id == $Micropost->user_id;
-
         if ($exist) {
             // すでにファボしていれば何もしない
             return false;
@@ -166,10 +162,6 @@ class User extends Authenticatable
     {
         // すでにお気に入りにしているかの確認
         $exist = $this->is_favorite($micropostId);
-        // 対象が自分自身かどうかの確認
-        $Micropost = Micropost::find($micropostId);
-        $its_me = $this->id == $Micropost->user_id;
-
         if ($exist) {
             // すでにファボしていればファボを外す
             $this->favorites()->detach($micropostId);
@@ -184,14 +176,5 @@ class User extends Authenticatable
         // お気に入りにしたmicropostの中に $micropostIdのものが存在するか
         return $this->favorites()->where('micropost_id', $micropostId)->exists();
     }
-    /**
-     * お気に入りの投稿に絞り込む。
-     */
-    public function feed_favorites()
-    {
-        // このユーザがお気に入りしている投稿のidを取得して配列にする
-        $micropostIds = $this->favorites()->pluck('favorites.id')->toArray();
-        // ユーザがお気に入りしている投稿に絞り込む
-        return Micropost::whereIn('user_id', $micropostIds);
-    }
+
 }
