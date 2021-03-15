@@ -22,6 +22,10 @@
                             {!! Form::close() !!}
                         @endif
                     </div>
+                    <div>
+                        {{-- ファボ／アンファボーボタン --}}
+                        @include('microposts_fav.favorite_button')
+                    </div>
                 </div>
             </li>
         @endforeach
